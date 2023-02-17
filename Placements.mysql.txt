@@ -1,8 +1,0 @@
--- https://learn-and-run.tistory.com/164
-SELECT s.name
-FROM students AS s 
-    LEFT JOIN packages AS my_s ON s.id = my_s.id
-    LEFT JOIN friends AS f ON s.id = f.id
-    LEFT JOIN packages AS frd_s ON f.friend_id = frd_s.id
-WHERE my_s.salary < frd_s.salary
-ORDER BY frd_s.salary
