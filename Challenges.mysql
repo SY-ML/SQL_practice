@@ -1,0 +1,21 @@
+-- https://learn-and-run.tistory.com/165
+WITH 
+    chl_by_h AS 
+        (SELECT hacker_id, COUNT(challenge_id) AS cch
+         FROM challenges
+         GROUP BY hacker_id), 
+     
+    chlcrtd_dupe AS 
+        (SELECT cch
+         FROM chl_by_h
+         WHERE cch != (SELECT MAX(cch) FROM chl_by_h)
+         GROUP BY cch
+         HAVING COUNT(cch) > 1)
+
+
+SELECT h.hacker_id, h.name, cch
+FROM hackers AS h 
+    LEFT JOIN chl_by_h AS cb 
+    ON h.hacker_id = cb.hacker_id
+WHERE cch IS NOT NULL AND cch NOT IN (SELECT * FROM chlcrtd_dupe)
+ORDER BY 3 DESC, 1
