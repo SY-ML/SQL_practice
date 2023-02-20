@@ -1,0 +1,18 @@
+-- https://learn-and-run.tistory.com/166
+
+WITH inv AS (SELECT id, w.code, age, power, coins_needed
+             FROM wands AS w 
+             JOIN (SELECT * FROM wands_property WHERE is_evil = 0)AS p
+             ON w.code = p.code), 
+
+    inv_min AS (SELECT code, age, power, MIN(coins_needed) AS coins_needed
+                FROM inv
+                GROUP BY code, age, power)
+
+SELECT id, i.age, i.coins_needed, i.power
+FROM inv AS i JOIN inv_min AS m
+                ON i.code = m.code AND i.age = m.age AND i.power = m.power AND i.coins_needed = m.coins_needed
+ORDER BY 4 DESC, 2 DESC
+
+                              
+        
