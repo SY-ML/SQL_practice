@@ -1,0 +1,23 @@
+--https://learn-and-run.tistory.com/167
+SET @prj_num := 0;
+
+WITH prj AS (
+    SELECT
+        curr.start_date, curr.end_date,
+        CASE WHEN prev.end_date IS NULL
+            THEN @prj_num := @prj_num + 1 
+            ELSE @prj_num END AS project_number
+    FROM 
+      projects AS curr
+      LEFT JOIN projects AS prev
+        ON curr.start_date = prev.end_date
+    ), 
+    ls_prj AS (
+        SELECT MIN(start_date) AS sp, MAX(end_date) AS ep
+        FROM prj
+        GROUP BY project_number
+    )
+
+
+SELECT * FROM ls_prj
+ORDER BY DATEDIFF(ep, sp), sp
