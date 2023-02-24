@@ -1,0 +1,7 @@
+--https://learn-and-run.tistory.com/169
+
+SELECT firstname, lastname, city, state 
+FROM person AS p 
+    LEFT JOIN address AS a
+    ON p.personid = a.personid
+    
