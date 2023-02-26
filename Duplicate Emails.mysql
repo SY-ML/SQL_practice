@@ -1,0 +1,5 @@
+-- https://learn-and-run.tistory.com/170
+SELECT email AS Email 
+FROM person 
+GROUP BY email
+HAVING COUNT(email) > 1
