@@ -1,0 +1,5 @@
+--https://learn-and-run.tistory.com/175
+SELECT class
+FROM courses
+GROUP BY class
+HAVING COUNT(student) >= 5
