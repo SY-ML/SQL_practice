@@ -1,0 +1,12 @@
+-- https://learn-and-run.tistory.com/178
+
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  RETURN (
+      SELECT DISTINCT(salary)
+      FROM
+        (SELECT id, salary, DENSE_RANK() OVER(ORDER BY salary DESC) AS ranking
+        FROM employee) AS emp_with_ranking
+    WHERE ranking = N
+  );
+END
