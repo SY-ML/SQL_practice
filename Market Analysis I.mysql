@@ -1,0 +1,19 @@
+--https://learn-and-run.tistory.com/m/180
+WITH buyer_2019 
+    AS(
+        SELECT buyer_id, COUNT(order_id) AS orders_in_2019
+        FROM orders
+        WHERE YEAR(order_date) = 2019
+        GROUP BY buyer_id
+    )
+
+SELECT 
+    user_id AS buyer_id, 
+    join_date, 
+    CASE WHEN user_id IN (SELECT buyer_id FROM buyer_2019) 
+        THEN orders_in_2019
+        ELSE 0
+    END AS orders_in_2019 
+FROM users AS u
+    LEFT JOIN buyer_2019 AS b
+    ON b.buyer_id = u.user_id
