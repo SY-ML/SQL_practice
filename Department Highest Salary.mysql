@@ -1,0 +1,19 @@
+--https://learn-and-run.tistory.com/179
+
+WITH max_sal_by_dpt AS (
+    SELECT 
+        departmentid, 
+        MAX(salary) AS salary
+    FROM employee
+    GROUP BY departmentid
+)
+
+SELECT 
+    d.name AS Department,
+    e.name AS Employee,
+    salary AS Salary
+FROM 
+    employee AS e
+    JOIN department AS d
+    ON e.departmentid = d.id
+WHERE (departmentid, salary) IN (SELECT departmentid, salary FROM max_sal_by_dpt)
