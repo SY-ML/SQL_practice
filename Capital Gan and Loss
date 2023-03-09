@@ -1,0 +1,13 @@
+# Write your MySQL query statement below
+
+WITH ledger AS(
+    SELECT
+        stock_name, 
+        CASE WHEN 
+            operation = 'Buy' THEN price*(-1)
+            ELSE price END AS cashflow
+    FROM stocks)
+
+SELECT stock_name, SUM(cashflow) AS capital_gain_loss
+FROM ledger
+GROUP BY stock_name
