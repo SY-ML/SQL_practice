@@ -1,0 +1,6 @@
+-- https://learn-and-run.tistory.com/181
+
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY FLOOR((id+1)/2), MOD(id, 2)) AS id, 
+    student
+FROM seat
