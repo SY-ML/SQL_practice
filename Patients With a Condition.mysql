@@ -1,0 +1,5 @@
+--https://learn-and-run.tistory.com/manage/posts/
+
+SELECT patient_id, patient_name, conditions
+FROM patients
+WHERE conditions REGEXP'^DIAB1|.* DIAB1|DIAB1$'
