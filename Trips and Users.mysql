@@ -1,0 +1,30 @@
+-- https://learn-and-run.tistory.com/185
+
+WITH users_ubnd AS (
+    SELECT users_id
+    FROM users
+    WHERE banned = 'No' 
+),
+
+oct_1_thru_3 AS (
+    SELECT 
+        request_at, 
+        CASE WHEN status REGEXP'^cancelled' THEN 1
+        ELSE 0 END AS cancellation
+    FROM 
+        trips
+    WHERE 
+        client_id IN (SELECT users_id FROM users_ubnd)
+        AND
+        driver_id IN (SELECT users_id FROM users_ubnd)
+        AND
+        request_at BETWEEN '2013-10-01' AND '2013-10-03'
+)
+
+SELECT 
+    request_at AS Day,
+    ROUND(
+        AVG(cancellation), 2
+        ) AS 'Cancellation Rate'
+FROM oct_1_thru_3
+GROUP BY request_at
