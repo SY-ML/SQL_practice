@@ -1,0 +1,16 @@
+--https://learn-and-run.tistory.com/186
+SELECT 
+    user_id, 
+    nickname,
+    total_sales
+    
+FROM 
+    (SELECT writer_id, SUM(PRICE) AS total_sales
+     FROM used_goods_board
+     WHERE status = 'DONE'
+     GROUP BY writer_id) AS totalsale_done_by_user
+    JOIN
+    used_goods_user AS user_info
+    ON totalsale_done_by_user.writer_id = user_info.user_id
+WHERE total_sales >= 700000
+ORDER BY 3
