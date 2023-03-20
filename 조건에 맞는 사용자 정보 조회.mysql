@@ -1,0 +1,17 @@
+--https://learn-and-run.tistory.com/191
+SELECT
+    user_id,
+    nickname,
+    CONCAT(city,' ', street_address1, CASE 
+                                        WHEN street_address2 = '' THEN ''
+                                        ELSE CONCAT(' ', street_address2) END) AS 전체주소,
+    CONCAT(LEFT(TLNO, 3), '-', MID(TLNO, 4, 4), '-', RIGHT(TLNO, 4)) AS 전화번호
+
+FROM used_goods_user
+
+WHERE user_id IN (
+                SELECT writer_id
+                FROM used_goods_board
+                GROUP BY writer_id
+                HAVING COUNT(board_id) >= 3)
+ORDER BY user_id DESC
