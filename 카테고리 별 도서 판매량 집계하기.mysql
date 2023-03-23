@@ -1,0 +1,14 @@
+--https://learn-and-run.tistory.com/195
+
+SELECT
+    category, 
+    ifnull(SUM(sales), 0) AS total_sales
+FROM
+    book AS b
+    LEFT JOIN book_sales AS bs ON b.book_id = bs.book_id
+WHERE
+    DATE_FORMAT(sales_date, '%Y-%m') = '2022-01'
+GROUP BY
+    category
+ORDER BY
+    category
