@@ -1,0 +1,35 @@
+WITH 
+    sales_jan2022 AS
+    (SELECT book_id, SUM(sales) AS qty_jan2022
+    FROM book_sales
+    WHERE DATE_FORMAT(sales_date, '%Y-%m') = '2022-01'
+    GROUP BY book_id),
+      
+
+    ls_book_n_author AS
+    (SELECT 
+        b.author_id, 
+        author_name, 
+        category,
+        book_id,
+        price
+     FROM 
+        book AS b 
+        LEFT JOIN author AS a on b.author_id = a.author_id
+    )
+    
+SELECT 
+    ba.author_id, 
+    author_name, 
+    category, 
+    IFNULL(SUM(price*qty_jan2022), 0) AS total_sales
+    
+FROM 
+    ls_book_n_author AS ba
+    LEFT JOIN sales_jan2022 AS s_jan ON ba.book_id = s_jan.book_id
+
+GROUP BY
+    ba.author_id, author_name, category
+    
+ORDER BY
+    author_id, category DESC
