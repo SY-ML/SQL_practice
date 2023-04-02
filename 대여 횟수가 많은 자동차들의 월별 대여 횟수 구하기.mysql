@@ -1,0 +1,36 @@
+--https://learn-and-run.tistory.com/199
+
+WITH 
+    hist_aug_thru_oct
+        AS 
+            (SELECT 
+                *, MONTH(start_date) AS month
+            FROM 
+                car_rental_company_rental_history
+            WHERE
+                MONTH(start_date) BETWEEN 8 AND 10),
+                
+    ls_car_over4_aug_thru_oct
+        AS
+            (SELECT car_id
+            FROM hist_aug_thru_oct
+            GROUP BY car_id
+            HAVING COUNT(history_id) >= 5)
+
+
+SELECT
+    month, car_id, COUNT(history_id) AS record
+
+FROM 
+    hist_aug_thru_oct
+
+WHERE
+    car_id IN 
+            (SELECT car_id
+             FROM ls_car_over4_aug_thru_oct)
+
+GROUP BY 
+    month, car_id
+    
+ORDER BY
+    month, car_id DESC
