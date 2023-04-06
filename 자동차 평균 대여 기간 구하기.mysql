@@ -1,0 +1,12 @@
+-- https://school.programmers.co.kr/learn/courses/30/lessons/157342
+SELECT
+    car_id, ROUND(AVG(duration), 1) AS average_duration
+FROM 
+    (SELECT *, DATEDIFF(end_date, start_date)+1 AS duration
+    FROM car_Rental_company_rental_history) AS rent_hist
+GROUP BY
+    car_id
+HAVING 
+    ROUND(AVG(duration), 1) >= 7
+ORDER BY
+    average_duration DESC, car_id DESC
