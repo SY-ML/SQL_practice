@@ -1,0 +1,15 @@
+SELECT 
+    title, 
+    bd.board_id, 
+    reply_id, 
+    rp.writer_id, 
+    rp.contents, 
+    DATE_FORMAT(rp.created_date, '%Y-%m-%d') AS created_date
+FROM 
+    used_goods_reply AS rp
+LEFT JOIN used_goods_board AS bd
+    ON rp.board_id = bd.board_id
+WHERE 
+    DATE_FORMAT(bd.created_date, '%Y-%m') = '2022-10'
+ORDER BY 
+    rp.created_date, title;
